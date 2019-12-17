@@ -56,7 +56,6 @@ export class HeroComponent implements OnInit {
       power: this.power,
       status: true
     };
-    console.log("newHero : ", newHero);
   };
 
   update({ id, status }) {
@@ -66,15 +65,11 @@ export class HeroComponent implements OnInit {
       power: this.power,
       status
     };
-    console.log("updatedHero : ", updatedHero);
+
     this.closeModal();
   }
 
-  deleteHero = async hero => {
-    console.log("hero : ", hero);
-  };
+  deleteHero = async hero => {};
 
-  searchHero = async () => {
-    console.log("filterKey : ", this.filterKey);
-  };
+  searchHero = async () => {};
 }
