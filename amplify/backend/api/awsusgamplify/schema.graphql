@@ -1,0 +1,6 @@
+type Hero @model @auth(rules: [{ allow: owner }]) @searchable {
+  id: ID!
+  name: String!
+  power: String
+  status: Boolean
+}

@@ -1,0 +1,18 @@
+projects:
+  awsusgamplify:
+    schemaPath: amplify/backend/api/awsusgamplify/build/schema.graphql
+    includes:
+      - src/graphql/**/*.graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: angular
+        generatedFileName: src/app/API.service.ts
+        docsFilePath: src/graphql
+        region: eu-west-1
+        apiId: null
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3

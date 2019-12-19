@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { APIService } from "../API.service";
 
 @Component({
   selector: "app-hero",
@@ -13,13 +14,40 @@ export class HeroComponent implements OnInit {
   name: string;
   power: string;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(private modalService: BsModalService, private api: APIService) {}
 
-  onCreateHeroListener = () => {};
+  onCreateHeroListener = () => {
+    this.api.OnCreateHeroListener.subscribe(
+      result => {
+        alert("Someone created a hero");
+      },
+      error => {
+        throw error;
+      }
+    );
+  };
 
-  onDeleteHeroListener = () => {};
+  onDeleteHeroListener = () => {
+    this.api.OnDeleteHeroListener.subscribe(
+      result => {
+        alert("Someone deleted a hero");
+      },
+      error => {
+        throw error;
+      }
+    );
+  };
 
-  onUpdateHeroListener = () => {};
+  onUpdateHeroListener = () => {
+    this.api.OnUpdateHeroListener.subscribe(
+      result => {
+        alert("Someone updated a hero");
+      },
+      error => {
+        throw error;
+      }
+    );
+  };
 
   async ngOnInit() {
     try {
@@ -47,29 +75,71 @@ export class HeroComponent implements OnInit {
   }
 
   getHeroesList = async () => {
-    return [];
+    try {
+      const result = await this.api.ListHeros();
+      this.heros = result.items;
+    } catch (error) {
+      alert("Something went wrong");
+    }
   };
 
   createHero = async () => {
-    const newHero = {
-      name: this.name,
-      power: this.power,
-      status: true
-    };
+    try {
+      const newHero = {
+        name: this.name,
+        power: this.power,
+        status: true
+      };
+      const result = await this.api.CreateHero(newHero);
+      this.heros.push({ ...newHero, id: result.id });
+      this.closeModal();
+    } catch (error) {
+      alert("Something went wrong");
+    }
   };
 
   update({ id, status }) {
-    const updatedHero = {
+    this.updateHero({
       id,
       name: this.name,
       power: this.power,
       status
-    };
+    });
 
     this.closeModal();
   }
 
-  deleteHero = async hero => {};
+  updateHero = async hero => {
+    try {
+      await this.api.UpdateHero(hero);
+      this.heros = this.heros.map(heroObj => {
+        if (heroObj.id === hero.id) {
+          return hero;
+        }
+        return heroObj;
+      });
+    } catch (error) {
+      alert("Something went wrong");
+    }
+  };
 
-  searchHero = async () => {};
+  deleteHero = async ({ id }) => {
+    try {
+      await this.api.DeleteHero({ id });
+      this.heros = this.heros.filter(hero => hero.id !== id);
+    } catch (error) {
+      alert("Something went wrong");
+    }
+  };
+
+  searchHero = async () => {
+    try {
+      const result = await this.api.SearchHeros({
+        name: { match: this.filterKey }
+      });
+      this.heros = result.items;
+    } catch (error) {
+      alert("Something went wrong");
+    }
+  };
 }

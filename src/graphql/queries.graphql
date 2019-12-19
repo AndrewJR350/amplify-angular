@@ -1,0 +1,49 @@
+# this is an auto generated file. This will be overwritten
+query GetHero($id: ID!) {
+  getHero(id: $id) {
+    id
+    name
+    power
+    status
+    owner
+  }
+}
+query ListHeros(
+  $filter: ModelHeroFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listHeros(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      power
+      status
+      owner
+    }
+    nextToken
+  }
+}
+query SearchHeros(
+  $filter: SearchableHeroFilterInput
+  $sort: SearchableHeroSortInput
+  $limit: Int
+  $nextToken: String
+) {
+  searchHeros(
+    filter: $filter
+    sort: $sort
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      power
+      status
+      owner
+    }
+    nextToken
+    total
+  }
+}

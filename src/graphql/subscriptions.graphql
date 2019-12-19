@@ -1,0 +1,28 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateHero($owner: String!) {
+  onCreateHero(owner: $owner) {
+    id
+    name
+    power
+    status
+    owner
+  }
+}
+subscription OnUpdateHero($owner: String!) {
+  onUpdateHero(owner: $owner) {
+    id
+    name
+    power
+    status
+    owner
+  }
+}
+subscription OnDeleteHero($owner: String!) {
+  onDeleteHero(owner: $owner) {
+    id
+    name
+    power
+    status
+    owner
+  }
+}

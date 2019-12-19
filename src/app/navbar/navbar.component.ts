@@ -1,6 +1,7 @@
 // import { Auth } from "aws-amplify";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Auth } from "aws-amplify";
 
 @Component({
   selector: "app-navbar",
@@ -12,5 +13,12 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {}
 
-  async logout() {}
+  async logout() {
+    try {
+      await Auth.signOut({ global: true });
+      this.router.navigate(["/"]);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
